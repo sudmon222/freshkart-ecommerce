@@ -11,12 +11,16 @@ const Loading = () => {
     const nextUrl=query.get("next");
 
     useEffect(()=>{
-        if(nextUrl){
-            setTimeout(()=>{
-                navigate(`${nextUrl}`)
-            },5000)
+        if(!nextUrl){
+            return undefined;
         }
-    },[nextUrl])
+
+        const timer = setTimeout(()=>{
+            navigate(`${nextUrl}`)
+        },5000)
+
+        return () => clearTimeout(timer);
+    },[navigate, nextUrl])
 
     return (
         <div className='flex justify-center items-center h-screen'>

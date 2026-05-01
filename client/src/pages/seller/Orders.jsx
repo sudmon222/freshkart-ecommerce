@@ -7,22 +7,22 @@ function Orders() {
   const { currency, axios } = useAppContext();
   const [orders, setOrders] = useState([]);
 
-  const fetchOrders = async () => {
-    try {
-      const { data } = await axios.get('/api/order/seller');
-      if (data.success) {
-        setOrders(data.orders);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  }
-
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const { data } = await axios.get('/api/order/seller');
+        if (data.success) {
+          setOrders(data.orders);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
     fetchOrders();
-  }, []);
+  }, [axios]);
 
   return (
     <div className='no-scrollbar flex-1 h-[95vh] overflow-y-scroll'>

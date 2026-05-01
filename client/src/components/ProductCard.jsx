@@ -1,7 +1,5 @@
-import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
-import { toast } from "react-hot-toast";
 
 const ProductCard = ({ product }) => {
   const { currency, addToCart, cartItems, navigate, removeFromCart } =

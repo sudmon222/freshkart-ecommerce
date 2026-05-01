@@ -46,7 +46,7 @@ export const productList = async (req, res) => {
 // Get Single Product : /api/product/id
 export const productById = async (req, res) => {
     try {
-        const { id } = req.body;
+        const id = req.params.id || req.query.id || req.body.id;
         const product = await Product.findById(id);
         res.json({success: true, product});
     } catch (error) {

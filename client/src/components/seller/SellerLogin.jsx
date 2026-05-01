@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast';
-import axios from 'axios';
 
 
 const SellerLogin = () => {
@@ -30,7 +29,7 @@ const SellerLogin = () => {
         if(isSeller){
             navigate("/seller")
         }
-    },[isSeller])
+    },[isSeller, navigate])
   return!isSeller && (
     <form onSubmit={onSubmitHandler} className='min-h-screen flex items-center text-sm
     text-gray-600'>

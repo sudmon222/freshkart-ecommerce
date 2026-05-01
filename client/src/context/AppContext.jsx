@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { dummyProducts } from '../assets/assets.js'
 import { toast } from 'react-hot-toast'
 import axios from 'axios';
 
@@ -20,7 +19,7 @@ export const AppContextProvider = ( {children} ) => {
     const [products, setProducts] = useState([]);
 
     const [cartItems, setCartItems] = useState({});
-    const [searchQuery, setSearchQuery] = useState({});
+    const [searchQuery, setSearchQuery] = useState("");
 
     // Fetch seller status
     const fetchSeller = async () => {
@@ -31,7 +30,7 @@ export const AppContextProvider = ( {children} ) => {
             }else{
                 setIsSeller(false);
             }
-        } catch (error) {
+        } catch {
             setIsSeller(false);
         }
     }
@@ -44,7 +43,7 @@ export const AppContextProvider = ( {children} ) => {
                 setUser(data.user);
                 setCartItems(data.user.cartItems);
             }
-        } catch (error) {
+        } catch {
             setUser(null);
         }
     }
@@ -92,7 +91,7 @@ export const AppContextProvider = ( {children} ) => {
         let totalAmount = 0;
         for(const items in cartItems){
             let itemInfo = products.find((product) => product._id === items);
-            if(cartItems[items] > 0){
+            if(itemInfo && cartItems[items] > 0){
                 totalAmount += itemInfo.offerPrice * cartItems[items];
             }
         }
@@ -141,7 +140,7 @@ export const AppContextProvider = ( {children} ) => {
         if(user){
             updateCart();
         }
-    }, [cartItems]);
+    }, [cartItems, user]);
 
     const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setCartItems,
             setShowUserLogin, products, currency, addToCart, updateCartItem,

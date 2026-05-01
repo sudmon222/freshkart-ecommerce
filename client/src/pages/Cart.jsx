@@ -31,7 +31,6 @@ const Cart = () => {
             }
 
             const payload = {
-                userId: user._id,
                 items: cartArray.map((item) => ({
                     product: item._id,
                     quantity: item.quantity
@@ -63,53 +62,48 @@ const Cart = () => {
         }
     };
 
-    const getCart = () => {
-        let tempArray = [];
-
-        for (const key in cartItems) {
-            let product = products.find((item) => item._id === key);
-            if (product) {
-                const safeImages =
-                    product.images ||
-                    product.image || // fallback to old backend format
-                    [];
-
-                product = { ...product, images: safeImages };
-                product.quantity = cartItems[key];
-                tempArray.push(product);
-            }
-        }
-
-        setCartArray(tempArray);
-    };
-
-    const getUserAddress = async () => {
-        try {
-            const { data } = await axios.get("/api/address/get");
-            if (data.success) {
-                setAddresses(data.addresses);
-                if (data.addresses.length > 0) {
-                    setSelectedAddress(data.addresses[0]);
-                } else {
-                    toast.error(data.message);
-                }
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
-    };
-
     useEffect(() => {
         if (products.length > 0 && cartItems) {
-            getCart();
+            const tempArray = [];
+
+            for (const key in cartItems) {
+                const product = products.find((item) => item._id === key);
+                if (product) {
+                    const safeImages = product.images || product.image || [];
+
+                    tempArray.push({
+                        ...product,
+                        images: safeImages,
+                        quantity: cartItems[key]
+                    });
+                }
+            }
+
+            setCartArray(tempArray);
         }
     }, [products, cartItems]);
 
     useEffect(() => {
         if (user) {
+            const getUserAddress = async () => {
+                try {
+                    const { data } = await axios.get("/api/address/get");
+                    if (data.success) {
+                        setAddresses(data.addresses);
+                        if (data.addresses.length > 0) {
+                            setSelectedAddress(data.addresses[0]);
+                        }
+                    } else {
+                        toast.error(data.message);
+                    }
+                } catch (error) {
+                    toast.error(error.message);
+                }
+            };
+
             getUserAddress();
         }
-    }, [user]);
+    }, [axios, user]);
 
     return products.length > 0 && cartItems ? (
         <div className="flex flex-col md:flex-row mt-16">
