@@ -3,7 +3,13 @@ import Order from '../models/Order.js';
 import Stripe from 'stripe';
 import User from '../models/User.js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const getStripeClient = () => {
+    if (!process.env.STRIPE_SECRET_KEY) {
+        throw new Error('Stripe is not configured on the server');
+    }
+
+    return new Stripe(process.env.STRIPE_SECRET_KEY);
+};
 
 // ------------------ COD ORDER ------------------
 export const placeOrderCOD = async (req, res) => {
@@ -42,7 +48,10 @@ export const placeOrderCOD = async (req, res) => {
 
 // ------------------ STRIPE ORDER ------------------
 export const placeOrderStripe = async (req, res) => {
+    let stripe;
+
     try {
+        stripe = getStripeClient();
         const userId = req.userId || req.body.userId;
         const { address, items } = req.body;
         const { origin } = req.headers;
@@ -103,12 +112,21 @@ export const placeOrderStripe = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.json({ success: false, message: error.message });
+        const statusCode = error.message === 'Stripe is not configured on the server' ? 500 : 200;
+        res.status(statusCode).json({ success: false, message: error.message });
     }
 };
 
 // ------------------ STRIPE WEBHOOK ------------------
 export const stripeWebhooks = async (req, res) => {
+    let stripe;
+
+    try {
+        stripe = getStripeClient();
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+
     const sig = req.headers["stripe-signature"];
     let event;
 

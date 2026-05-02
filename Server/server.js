@@ -15,20 +15,37 @@ import { stripeWebhooks } from './controllers/orderController.js';
 const app = express();
 
 const port = process.env.PORT || 8000;
-await connectDB();
-await connectCloudinary();
+connectDB();
+connectCloudinary();
 
-// Allow multiple origins
-const allowedOrigins = ['http://localhost:5173', 'https://greencart-sand.vercel.app'];
+const defaultAllowedOrigins = [
+    'http://localhost:5173',
+    'https://freshkart-ecommerce-bzbf.vercel.app',
+    'https://freshkart-ecommerce.vercel.app'
+];
+
+const envAllowedOrigins = process.env.ALLOWED_ORIGINS
+    ?.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean) || [];
+
+const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...envAllowedOrigins])];
+const vercelPreviewPattern = /^https:\/\/freshkart-ecommerce(?:-[a-z0-9-]+)?\.vercel\.app$/;
+
 const corsOptions = {
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (
+            !origin ||
+            allowedOrigins.includes(origin) ||
+            vercelPreviewPattern.test(origin)
+        ) {
             return callback(null, true);
         }
 
-        return callback(new Error('Not allowed by CORS'));
+        return callback(null, false);
     },
     credentials: true,
+    optionsSuccessStatus: 200
 };
 
 app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhooks);
@@ -47,6 +64,18 @@ app.use('/api/cart', cartRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/order', orderRouter);
 
-app.listen(port, () => {
-    console.log(`PORT connected on ${port}`);
-})
+app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+    });
+});
+
+if (process.env.VERCEL !== '1') {
+    app.listen(port, () => {
+        console.log(`PORT connected on ${port}`);
+    });
+}
+
+export default app;
