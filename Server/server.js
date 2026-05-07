@@ -15,7 +15,7 @@ import { stripeWebhooks } from './controllers/orderController.js';
 const app = express();
 
 const port = process.env.PORT || 8000;
-connectDB();
+await connectDB();
 connectCloudinary();
 
 const defaultAllowedOrigins = [
