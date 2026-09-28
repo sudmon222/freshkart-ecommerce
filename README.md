@@ -116,7 +116,6 @@ FreshKart/
 │   └── package.json
 │
 ├── .gitignore
-├── netlify.toml
 └── package.json
 ```
 
