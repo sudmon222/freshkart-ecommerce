@@ -1,261 +1,583 @@
-# FreshKart – Online Grocery Ordering System 🛒
+# 🛒 FreshKart — Full-Stack Grocery E-Commerce Platform
 
-A full-stack **online grocery ordering platform** built using the **MERN stack**. FreshKart allows customers to browse groceries, manage their cart, save delivery addresses, place orders using **Cash on Delivery or Stripe**, and track their orders. Sellers/Admins can manage products, inventory, and customer orders.
+FreshKart is a **full-stack grocery e-commerce web application** built using the **MERN stack**. It provides customers with a complete online grocery shopping experience, including authentication, product browsing, cart management, address management, order placement, and online payments.
 
-The project was developed as a B.Tech CSE project and follows a modular full-stack architecture using React, Node.js, Express.js, and MongoDB. 
+The application also includes a **seller dashboard** for managing products, inventory, and customer orders.
+
+## 🌐 Live Demo
+
+**[FreshKart — Live Application](https://freshkart-ecommerce-nugn.vercel.app/)**
+
+**GitHub Repository:**
+https://github.com/sudmon222/freshkart-ecommerce
+
+---
 
 ## ✨ Features
 
 ### 👤 Customer Features
 
-* 🔐 User registration and login
-* 🔑 JWT-based authentication
-* 🛍️ Browse and search grocery products
-* 📂 Category-based product browsing
-* 🔎 Product details with multiple images
-* 🛒 Add, remove, and update cart items
-* 💰 Automatic subtotal, tax and total calculation
-* 📍 Add and manage multiple delivery addresses
-* 📦 Place and track orders
-* 🧾 View order history
-* 💳 Cash on Delivery
-* 💳 Online payment using Stripe
+* User registration and login
+* JWT-based authentication
+* Secure HTTP-only authentication cookies
+* Browse available grocery products
+* Product category browsing
+* Product details
+* Add products to cart
+* Update cart quantities
+* Remove products from cart
+* Manage delivery addresses
+* Cash on Delivery (COD)
+* Online payment using Stripe
+* View order history
+* Responsive user interface
 
-### 👨‍💼 Seller/Admin Features
+### 🏪 Seller Features
 
-* ➕ Add new products
-* 🖼️ Upload multiple product images
-* ✏️ Update product information
-* 💰 Manage product prices and offer prices
-* 📦 Manage stock availability
-* 👀 Toggle product visibility
-* 📋 View and manage customer orders
+* Seller authentication
+* Protected seller dashboard
+* Add new products
+* Upload product images
+* Cloudinary image storage
+* Manage product availability
+* View customer orders
+* Manage product inventory
 
-These customer and seller modules are described in the project's system design, including product, cart, order/payment, and admin/seller functionality. 
+### ⚙️ Backend Features
 
-## 🛠️ Tech Stack
+* RESTful APIs using Express.js
+* MongoDB database with Mongoose
+* JWT authentication
+* Password hashing using bcrypt
+* Separate user and seller authentication middleware
+* Stripe payment integration
+* Stripe webhook handling
+* Cloudinary image upload
+* CORS configuration
+* Environment-based configuration
 
-| Technology       | Purpose               |
-| ---------------- | --------------------- |
-| **React.js**     | Frontend UI           |
-| **Node.js**      | Backend runtime       |
-| **Express.js**   | REST API & server     |
-| **MongoDB**      | Database              |
-| **Mongoose**     | MongoDB ODM           |
-| **JWT**          | Authentication        |
-| **Stripe**       | Online payments       |
-| **Cloudinary**   | Product image hosting |
-| **Axios**        | API requests          |
-| **Tailwind CSS** | Styling               |
-| **React Router** | Frontend routing      |
-| **Multer**       | Image upload handling |
+---
 
-The project documentation specifically identifies MongoDB, Express.js, React.js, Node.js, Axios, JWT, Multer, Stripe API, Tailwind CSS, and Nodemon as the main technologies and supporting tools. 
+# 🛠️ Tech Stack
 
-## 🏗️ Project Architecture
+## Frontend
+
+* **React.js**
+* **React Router**
+* **Axios**
+* **Tailwind CSS**
+* **React Hot Toast**
+* **Vite**
+
+## Backend
+
+* **Node.js**
+* **Express.js**
+* **MongoDB**
+* **Mongoose**
+* **JWT**
+* **bcryptjs**
+* **Multer**
+* **Cloudinary**
+* **Stripe**
+* **Cookie Parser**
+* **CORS**
+* **dotenv**
+
+---
+
+# 📁 Project Structure
 
 ```text
-                    ┌─────────────────┐
-                    │     React.js    │
-                    │    Frontend     │
-                    └────────┬────────┘
-                             │
-                         REST APIs
-                             │
-                    ┌────────▼────────┐
-                    │    Express.js   │
-                    │     + Node.js   │
-                    └──────┬─────┬────┘
-                           │     │
-                    ┌──────▼─┐ ┌─▼────────┐
-                    │ MongoDB│ │  Stripe  │
-                    │Database│ │ Payments │
-                    └────────┘ └──────────┘
+FreshKart/
+│
+├── client/                         # React frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   │   └── seller/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── package.json
+│   └── vite.config.js
+│
+├── Server/                         # Node.js + Express backend
+│   ├── configs/
+│   ├── controllers/
+│   ├── middlewares/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
+│   ├── server.js
+│   └── package.json
+│
+├── .gitignore
+├── netlify.toml
+└── package.json
 ```
 
-The project uses a layered architecture in which the React client communicates with the Express/Node backend, which handles authentication, business logic, API routing and database operations. 
+---
 
-## 📂 Main Modules
+# 🏗️ Application Architecture
 
 ```text
-FreshKart
-│
-├── User Authentication
-│   ├── Register
-│   ├── Login
-│   └── Profile
-│
-├── Product Management
-│   ├── Product Listing
-│   ├── Search & Filter
-│   └── Product Details
-│
-├── Shopping Cart
-│   ├── Add Product
-│   ├── Update Quantity
-│   └── Remove Product
-│
-├── Address Management
-│   ├── Add Address
-│   ├── Edit Address
-│   └── Select Address
-│
-├── Orders
-│   ├── COD Orders
-│   ├── Online Orders
-│   └── Order History
-│
-├── Payments
-│   └── Stripe Checkout
-│
-└── Seller/Admin
-    ├── Add Products
-    ├── Manage Products
-    ├── Manage Stock
-    └── Manage Orders
+                    ┌──────────────────────┐
+                    │     React Client     │
+                    │  React + Tailwind    │
+                    └──────────┬───────────┘
+                               │
+                         Axios / REST API
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │    Express Server    │
+                    │       Node.js        │
+                    └──────────┬───────────┘
+                               │
+             ┌─────────────────┼─────────────────┐
+             │                 │                 │
+             ▼                 ▼                 ▼
+       ┌───────────┐     ┌────────────┐    ┌────────────┐
+       │  MongoDB  │     │ Cloudinary │    │   Stripe   │
+       │ Mongoose  │     │   Images   │    │  Payments  │
+       └───────────┘     └────────────┘    └────────────┘
 ```
 
-## 🔐 Authentication & Security
+The frontend communicates with the backend through REST APIs. The backend handles authentication, business logic, database operations, image uploads, order processing, and payment integration.
 
-FreshKart uses **JWT authentication** to protect user-specific and seller operations. JWT tokens are stored in secure cookies, and protected routes verify the token before allowing access. Passwords are stored using hashing rather than plain text. 
+---
 
-## 💳 Payment System
+# 🔐 Authentication Flow
 
-FreshKart supports two payment methods:
+```text
+User Registration / Login
+          ↓
+Backend validates credentials
+          ↓
+Password verification using bcrypt
+          ↓
+JWT token generated
+          ↓
+JWT stored in HTTP-only cookie
+          ↓
+Authentication middleware
+          ↓
+Protected API requests
+```
 
-* **Cash on Delivery (COD)**
-* **Online Payment using Stripe**
+The application uses separate authentication middleware for regular users and sellers.
 
-For Stripe payments, the backend creates a Checkout Session and passes relevant order information to Stripe. After successful payment, the payment status is updated in the order record. 
+---
 
-## 🔌 API Examples
+# 💳 Payment Flow
 
-| Method | Endpoint             | Description                   |
-| ------ | -------------------- | ----------------------------- |
-| POST   | `/api/user/register` | Register user                 |
-| POST   | `/api/user/login`    | Login user                    |
-| GET    | `/api/product/list`  | Get products                  |
-| POST   | `/api/cart/add`      | Add product to cart           |
-| POST   | `/api/order/cod`     | Place COD order               |
-| POST   | `/api/order/stripe`  | Create Stripe payment session |
+FreshKart supports both **Cash on Delivery** and **online Stripe payments**.
 
-These endpoints are documented in the project's API summary. 
+```text
+Customer adds products
+          ↓
+Checkout
+          ↓
+Select payment method
+          ↓
+ ┌────────┴─────────┐
+ │                  │
+COD              Stripe
+ │                  │
+ ↓                  ↓
+Create Order    Checkout Session
+                    ↓
+                Payment
+                    ↓
+             Stripe Webhook
+                    ↓
+             Update Payment
+                 Status
+```
 
-## ⚙️ Installation & Setup
+---
 
-### 1. Clone the repository
+# 🗄️ Database Models
+
+### User
+
+Stores customer information such as:
+
+* Name
+* Email
+* Hashed password
+* Cart information
+
+### Product
+
+Stores:
+
+* Product name
+* Description
+* Price
+* Offer price
+* Product images
+* Category
+* Quantity
+* Stock availability
+
+### Address
+
+Stores:
+
+* User ID
+* Name
+* Email
+* Street
+* City
+* State
+* ZIP code
+* Country
+* Phone number
+
+### Order
+
+Stores:
+
+* User ID
+* Ordered products
+* Quantity
+* Total amount
+* Delivery address
+* Order status
+* Payment type
+* Payment status
+* Timestamps
+
+---
+
+# 🔌 API Overview
+
+## User APIs
+
+| Method | Endpoint             | Purpose              |
+| ------ | -------------------- | -------------------- |
+| POST   | `/api/user/register` | Register a new user  |
+| POST   | `/api/user/login`    | Login user           |
+| GET    | `/api/user/is-auth`  | Check authentication |
+| GET    | `/api/user/logout`   | Logout user          |
+
+## Product APIs
+
+| Method | Endpoint             | Purpose              |
+| ------ | -------------------- | -------------------- |
+| GET    | `/api/product/list`  | Get all products     |
+| GET    | `/api/product/id`    | Get product by ID    |
+| POST   | `/api/product/add`   | Add a product        |
+| POST   | `/api/product/stock` | Update product stock |
+
+## Cart APIs
+
+| Method | Endpoint           | Purpose            |
+| ------ | ------------------ | ------------------ |
+| POST   | `/api/cart/update` | Update user's cart |
+
+## Address APIs
+
+| Method | Endpoint           | Purpose              |
+| ------ | ------------------ | -------------------- |
+| POST   | `/api/address/add` | Add delivery address |
+| GET    | `/api/address/get` | Get user's addresses |
+
+## Order APIs
+
+| Method | Endpoint            | Purpose                |
+| ------ | ------------------- | ---------------------- |
+| POST   | `/api/order/cod`    | Place COD order        |
+| POST   | `/api/order/stripe` | Create Stripe checkout |
+| GET    | `/api/order/user`   | Get user's orders      |
+| GET    | `/api/order/seller` | Get seller orders      |
+
+## Seller APIs
+
+| Method | Endpoint              | Purpose                     |
+| ------ | --------------------- | --------------------------- |
+| POST   | `/api/seller/login`   | Seller login                |
+| GET    | `/api/seller/is-auth` | Check seller authentication |
+| GET    | `/api/seller/logout`  | Seller logout               |
+
+---
+
+# 🚀 Getting Started
+
+## 1. Clone the repository
 
 ```bash
 git clone https://github.com/sudmon222/freshkart-ecommerce.git
 cd freshkart-ecommerce
 ```
 
-### 2. Install dependencies
-
-Install dependencies for the frontend and backend according to the repository structure:
+## 2. Install frontend dependencies
 
 ```bash
+cd client
 npm install
 ```
 
-If the project has separate frontend/backend directories:
+## 3. Install backend dependencies
+
+Open another terminal:
 
 ```bash
-cd frontend
-npm install
-
-cd ../backend
+cd Server
 npm install
 ```
 
-### 3. Configure Environment Variables
+---
 
-Create `.env` files for the required backend configuration.
+# 🔑 Environment Variables
 
-Typical services required by the project include:
+## Client
+
+Create:
+
+```text
+client/.env
+```
+
+Example:
+
+```env
+VITE_CURRENCY=₹
+VITE_BACKEND_URL=http://localhost:8000
+```
+
+For the deployed application, use the deployed backend URL.
+
+## Server
+
+Create:
+
+```text
+Server/.env
+```
+
+Example:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-STRIPE_SECRET_KEY=your_stripe_secret_key
-CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+
+NODE_ENV=development
+
+SELLER_EMAIL=your_seller_email
+SELLER_PASSWORD=your_seller_password
+
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 ```
 
-> Use the exact variable names expected by the source code in your repository.
-
-### 4. Start the application
-
-Start the backend:
-
-```bash
-npm run server
-```
-
-Start the frontend:
-
-```bash
-npm run dev
-```
-
-Then open the local frontend URL shown by your development server.
-
-## 📸 Application Screens
-
-The project includes:
-
-* 🏠 Homepage
-* 🛍️ Product Details
-* 🛒 Shopping Cart
-* 💳 Online Payment
-* ➕ Seller Product Addition
-* 📋 Seller Product Management
-
-The project report documents these screens in Chapter 5, including the homepage, product details, cart, Stripe payment flow, and seller panels.  
-
-## 🎯 Project Objectives
-
-* Provide a simple and user-friendly grocery shopping experience
-* Enable efficient product and inventory management
-* Implement secure authentication
-* Support COD and online payments
-* Provide transparent order summaries
-* Build a responsive and scalable full-stack application
-
-## 🔮 Future Scope
-
-Possible future improvements include:
-
-* 📱 Mobile application
-* 🎟️ Coupon and discount system
-* 🚚 Delivery personnel management
-* 🔔 Order status notifications
-* 📊 Advanced seller analytics
-* 🤖 Predictive inventory suggestions
-* 📍 Improved delivery tracking
-* 🔐 OTP-based verification
-
-The project report identifies delivery management, coupons, predictive inventory, notifications, and mobile-app expansion among the future enhancement areas. 
-
-## 👨‍💻 Developer
-
-**Sudipta Kumar Mondal**
-
-B.Tech Computer Science & Engineering
-Dev Bhoomi Uttarakhand University
-
-* GitHub: **[@sudmon222](https://github.com/sudmon222)**
-* Project: **[FreshKart](https://github.com/sudmon222/freshkart-ecommerce)**
-
-## ⭐ Support
-
-If you find this project useful, consider giving the repository a **⭐ Star** on GitHub!
+> **Never commit `.env` files or secret API credentials to GitHub.**
 
 ---
 
-### GitHub repository description
+# ▶️ Run Locally
 
-You can also use this as the **short description** beside the repository name:
+## Start Backend
 
-> 🛒 Full-stack online grocery ordering system built with MERN stack, featuring JWT authentication, product & inventory management, shopping cart, order tracking, COD and Stripe payments.
+```bash
+cd Server
+npm run server
+```
+
+Backend:
+
+```text
+http://localhost:8000
+```
+
+## Start Frontend
+
+```bash
+cd client
+npm run dev
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+---
+
+# ☁️ Deployment
+
+The FreshKart application is deployed using **Vercel**.
+
+### Live Application
+
+https://freshkart-ecommerce-nugn.vercel.app/
+
+For deployment, the frontend and backend need to be configured with the appropriate environment variables and production API URLs.
+
+Important production configuration includes:
+
+* MongoDB connection string
+* JWT secret
+* Cloudinary credentials
+* Stripe credentials
+* Stripe webhook secret
+* Backend API URL
+* Frontend origin/CORS configuration
+
+---
+
+# 🔒 Security
+
+FreshKart implements several security mechanisms:
+
+* Password hashing with bcrypt
+* JWT-based authentication
+* HTTP-only authentication cookies
+* Secure cookies in production
+* User authentication middleware
+* Seller authentication middleware
+* Stripe webhook signature verification
+* Environment variables for sensitive credentials
+* CORS configuration
+
+---
+
+# 🧠 Key Technical Concepts Demonstrated
+
+This project demonstrates practical experience with:
+
+* Full-stack MERN architecture
+* REST API development
+* React component-based development
+* React Context API
+* Authentication and authorization
+* JWT
+* HTTP-only cookies
+* MongoDB and Mongoose
+* CRUD operations
+* Cart and order management
+* Payment gateway integration
+* Stripe webhooks
+* Cloudinary image storage
+* File uploads with Multer
+* Axios API communication
+* Responsive UI development
+* Frontend/backend separation
+* Deployment and environment configuration
+
+---
+
+# 📚 What I Learned
+
+While developing FreshKart, I gained practical experience in designing and connecting the different layers of a full-stack application.
+
+### Frontend
+
+* Building reusable React components
+* Managing application state
+* Creating protected routes
+* Connecting React with REST APIs
+* Building responsive interfaces
+
+### Backend
+
+* Designing REST APIs
+* Creating Express middleware
+* Implementing authentication
+* Handling database operations
+* Managing orders and cart data
+
+### Database
+
+* Designing MongoDB schemas
+* Using Mongoose models
+* Performing CRUD operations
+* Managing relationships between users, products and orders
+
+### Third-Party Services
+
+* Stripe payment integration
+* Stripe webhook processing
+* Cloudinary image management
+
+### Deployment
+
+* Managing production environment variables
+* Connecting frontend and backend services
+* Deploying the application using Vercel
+
+---
+
+# 🔮 Future Improvements
+
+Possible future improvements include:
+
+* Product reviews and ratings
+* Wishlist functionality
+* Product search and advanced filtering
+* Pagination
+* Order tracking
+* Seller analytics dashboard
+* Email notifications
+* Automated API testing
+* Improved inventory management
+* Admin dashboard
+* Better logging and monitoring
+
+---
+
+# 📸 Screenshots
+
+Add screenshots of the major application pages here:
+
+```text
+screenshots/
+├── home.png
+├── products.png
+├── product-details.png
+├── cart.png
+├── checkout.png
+├── my-orders.png
+└── seller-dashboard.png
+```
+
+Example:
+
+```md
+![FreshKart Home Page](./screenshots/home.png)
+```
+
+---
+
+# 👨‍💻 Author
+
+## Sudipta Kumar Mondal
+
+**B.Tech — Computer Science & Engineering**
+**Dev Bhoomi Uttarakhand University**
+
+GitHub:
+https://github.com/sudmon222
+
+---
+
+# ⭐ Project
+
+If you find this project useful, consider giving the repository a ⭐ on GitHub.
+
+**Live Demo:**
+https://freshkart-ecommerce-nugn.vercel.app/
+
+**Source Code:**
+https://github.com/sudmon222/freshkart-ecommerce
